@@ -12,7 +12,7 @@ def ejemplo():
 # get track path
 @eel.expose
 def get_track_path():
-    file_path = "music\Canoto - Alone.mp3"
+    file_path = "music\example.mp3"
     return file_path
 
 # get filename
@@ -22,29 +22,54 @@ def get_file_name():
     full_name = os.path.basename(file_path)
     return full_name
 
+# load track
 def load_track():
     file_path = get_track_path()
     # assign track path
     f = music_tag.load_file(file_path)
     return f
 
+# get title
 @eel.expose
 def get_title():
     f = load_track()
     title = f['title']
     return str(title)
 
+# get artist
 @eel.expose
 def get_artist():
     f = load_track()
     artist = f['artist']
     return str(artist)
 
+# get album
 @eel.expose
 def get_album():
     f = load_track()
     album = f['album']
     return str(album)
+
+# save data to file
+def save(data):
+    f = load_track()
+    f['title'] = data[0]
+    f['artist'] = data[1]
+    f['album'] = data[2]
+
+    f.save()
+
+# get data from javascript
+@eel.expose
+def get_data():
+    data = eel.obtenerDatos()()
+    print(data)
+    save(data)
+    return data
+
+ 
+
+
 
 def main():
     
